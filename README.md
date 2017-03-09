@@ -32,4 +32,20 @@ I randomly select two car images and two non-car images to compare there HOG fig
 ![img](figs/car1_HOG.png)
 ![img](figs/car2_HOG.png)  
 ![img](figs/noncar1_HOG.png)  
-![img](figs/noncar2_HOG.png)  
+![img](figs/noncar2_HOG.png)
+
+
+### 2. Explore the Color Space
+In the final training of the SVC, I choose the "YCrCb" color space to extract the "Color Histogram" feature. 
+
+![img](figs/car1_color.png)
+![img](figs/car2_color.png)  
+![img](figs/noncar1_color.png)  
+![img](figs/noncar2_color.png)
+
+### 2. Explain how you settled on your final choice of HOG parameters.
+
+
+
+
+### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
