@@ -16,9 +16,18 @@ The goals / steps of this project are the following:
 
 Here are links to the labeled data for [vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [non-vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip) examples to train the classifier.  These example images come from a combination of the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html), the [KITTI vision benchmark suite](http://www.cvlibs.net/datasets/kitti/), and examples extracted from the project video itself.   You are welcome and encouraged to take advantage of the recently released [Udacity labeled dataset](https://github.com/udacity/self-driving-car/tree/master/annotations) to augment your training data.  
 
-Some example images for testing your pipeline on single frames are located in the `test_images` folder.  To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `ouput_images`, and include them in your writeup for the project by describing what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
+## Two Jupyter Notebooks for this Project
+---
+### 1. The first one is "P5_train_svc.ipynb"
+The SVM classifier is trained in this notebook. The exploration of the features are also included in this notebook.  
+### 2. The second one is "P5_vehicle_detection.ipynb"
+The vehicle detection pipeline for the video processing is developed in this notebook.  
 
-**As an optional challenge** Once you have a working pipeline for vehicle detection, add in your lane-finding algorithm from the last project to do simultaneous lane-finding and vehicle detection!
 
-**If you're feeling ambitious** (also totally optional though), don't stop there!  We encourage you to go out and take video of your own, and show us how you would implement this project on a new video!
+## Histogram of Oriented Gradients (HOG)
 
+### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+The code for this step is contained in the "P5_train_svc.ipynb" code cell 2. 
+
+I randomly select two car images and two non-car images to compare there HOG figures. 
+![img](imgs/car1_HOG.png)
