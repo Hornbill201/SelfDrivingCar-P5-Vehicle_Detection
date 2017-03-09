@@ -29,7 +29,7 @@ The vehicle detection pipeline for the video processing is developed in this not
 The code for this step is contained in the "P5_train_svc.ipynb" code cell 2. 
 
 I randomly select two car images and two non-car images to compare there HOG figures. 
-![img](figs/car1_HOG.png)  
+![img](figs/car1_HOG.png)
 ![img](figs/car2_HOG.png)  
 ![img](figs/noncar1_HOG.png)  
 ![img](figs/noncar2_HOG.png)  
