@@ -53,20 +53,26 @@ I experimented getting the features in different color channels such as RGB , HS
 ### 2. Explain how you settled on your final choice of parameters.
 In the final choice of the features, I choose three features.  
 1. HOG Features.  I am using all the 3 channels for extracting the HOG features.
+
 2. Binned Color Features.  `spatial_size = (32, 32)`
+
 3. Color Histogram Features.  `color_space = 'YCrCb'`
+
 The feature extraction function is in the "P5_train_svc.ipynb" code cell 8. 
+
 I tried various combinations of color spaces and parameters before finally settling with following:
-`color_space = 'YCrCb'
-spatial_size = (32, 32)
-hist_bins = 32
-orient = 9
-pix_per_cell = 8
-cell_per_block = 2
-hog_channel = 'ALL'
-spatial_feat = True
-hist_feat = True
-hog_feat = True`
+
+`color_space = 'YCrCb'  
+spatial_size = (32, 32)  
+hist_bins = 32  
+orient = 9  
+pix_per_cell = 8  
+cell_per_block = 2  
+hog_channel = 'ALL'  
+spatial_feat = True  
+hist_feat = True  
+hog_feat = True`  
+
 
 
 ### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
