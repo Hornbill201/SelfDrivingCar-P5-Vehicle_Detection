@@ -152,7 +152,8 @@ Here are some example images produced by this new smoothing pipeline.
 ### 1. Provide a link to your final video output. 
 
 ### Here is [the link to my final output video on Youtube.](https://youtu.be/IF8L4JLO4fE)
-This video can also be found in this GitHub Repository. 
+This video can also be found in this GitHub Repository. `project_output_smooth.mp4`
+
 In this final output, I combine the vehicle detection with the lane lines detection finished in Project 4. 
 
 Here's an example result showing the bounding boxes on a frame of video:
