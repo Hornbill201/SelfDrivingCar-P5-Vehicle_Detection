@@ -29,23 +29,44 @@ The vehicle detection pipeline for the video processing is developed in this not
 The code for this step is contained in the "P5_train_svc.ipynb" code cell 2. 
 
 I randomly select two car images and two non-car images to compare there HOG figures. 
+The two example images are shown as follows, the parameters of the HOG feature I am using is 
+`orient = 9
+pix_per_cell = 8
+cell_per_block = 2`
+
 ![img](figs/car1_HOG.png)
 ![img](figs/car2_HOG.png)  
 ![img](figs/noncar1_HOG.png)  
 ![img](figs/noncar2_HOG.png)
 
+We can find that the HOG features of the cars and non-cars are really very different from each other. We can still tell the outline of the car from the HOG image. 
 
 ### 2. Explore the Color Space
-In the final training of the SVC, I choose the "YCrCb" color space to extract the "Color Histogram" feature. 
+I experimented getting the features in different color channels such as RGB , HSV , YUV , YCrCb , HLS with different parameters. However I got the best results using the YCrCb transformation. The examples are shown below, in which we can easily easily tell the body of the car and non-car road line. 
 
 ![img](figs/car1_color.png)
 ![img](figs/car2_color.png)  
 ![img](figs/noncar1_color.png)  
 ![img](figs/noncar2_color.png)
 
-### 2. Explain how you settled on your final choice of HOG parameters.
 
-
+### 2. Explain how you settled on your final choice of parameters.
+In the final choice of the features, I choose three features.  
+1. HOG Features.  I am using all the 3 channels for extracting the HOG features.
+2. Binned Color Features.  `spatial_size = (32, 32)`
+3. Color Histogram Features.  `color_space = 'YCrCb'`
+The feature extraction function is in the "P5_train_svc.ipynb" code cell 8. 
+I tried various combinations of color spaces and parameters before finally settling with following:
+`color_space = 'YCrCb'
+spatial_size = (32, 32)
+hist_bins = 32
+orient = 9
+pix_per_cell = 8
+cell_per_block = 2
+hog_channel = 'ALL'
+spatial_feat = True
+hist_feat = True
+hog_feat = True`
 
 
 ### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
