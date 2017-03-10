@@ -139,6 +139,8 @@ I also create the second video processing pipeline in the class
 The method `VehicleDetector.find_cars_smooth()` is used to detect the car. It is basicly the same as the function `find_cars()` defined before. However, it allows the multi-scale search. More importantly, the search is optimized by processing complete frames only once every 10 frames. The restricted search is performed by appending 50 pixel to the heatmap found in last three frames.
 It really helps a lot to make the detection more robust and stable. 
 
+#### The details of the pipeline can be found in the file "P5_vehicle_detection.ipynb". 
+
 Here are some example images produced by this new smoothing pipeline.  
 
 ![img](figs/test3_multi.png)
@@ -148,7 +150,7 @@ Here are some example images produced by this new smoothing pipeline.
 ## Video Implementation
 ### 1. Provide a link to your final video output. 
 
-### Here is [the link to my final output video on Youtube.](https://youtu.be/BD6qX41Qap0)
+### Here is [the link to my final output video on Youtube.](https://youtu.be/IF8L4JLO4fE)
 In this final output, I combine the vehicle detection with the lane lines detection finished in Project 4. 
 
 Here's an example result showing the bounding boxes on a frame of video:
@@ -158,4 +160,4 @@ Here's an example result showing the bounding boxes on a frame of video:
 ## Discussion
 ### 1. Briefly discuss any problems / issues you faced in your implementation of this project. Where will your pipeline likely fail? What could you do to make it more robust?
 
-I found that in some frame of the video, the 
+I found that in some frame of the video, there will be missed detection. I think I need to enlarge the search area. However, large area will take more time to process the image. The reason that we want to use the multi-scale search is to avoid false positive, because the SVC classifier may make mistakes. I think we may want to use some better classifiers, such as the CNN or SVM with non-linear kernals.  
