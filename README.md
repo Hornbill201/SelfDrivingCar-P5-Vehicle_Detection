@@ -91,10 +91,12 @@ In the basic one, 64 was the orginal sampling rate, with 8 cells and 8 pix per c
 
 The following figure shows when I set the scale to be `scale = 1.5`, the detection example. 
 
-![img](figs/xxx.png)
+![img](figs/test1_find_car.png)
 
-Then I used the heat map operation to take care of the multi-detection and reduce the false positive. The example images are shown below, which is basicly good. 
+Then I used the heat map operation to take care of the multi-detection and reduce the false positive. The example images are shown below, which is basicly good.  
+
 ![img](figs/test1_after_heat.png)
+
 ![img](figs/test1_heat_map.png)
 
 I have tried to directly use the one search scale `scale = 1.5` with heat map with `threshold = 1` to build the pipeline for video. This pipeline can be found in the function `detect_vehicles()`. The output video is basicly good. However, the there are still some false positives shown up and sometimes. And the bounding boxes are not stable and the cars in some frame may not be detected. 
@@ -137,16 +139,19 @@ I also create the second video processing pipeline in the class
 The method `VehicleDetector.find_cars_smooth()` is used to detect the car. It is basicly the same as the function `find_cars()` defined before. However, it allows the multi-scale search. More importantly, the search is optimized by processing complete frames only once every 10 frames. The restricted search is performed by appending 50 pixel to the heatmap found in last three frames.
 It really helps a lot to make the detection more robust and stable. 
 
-Here are some example images produced by this new smoothing pipeline. 
+Here are some example images produced by this new smoothing pipeline.  
 
+![img](figs/test3_multi.png)
+
+![img](figs/test6_multi.png)
 
 ## Video Implementation
 ### 1. Provide a link to your final video output. 
 
-### Here is the link to my final output video on Youtube. 
+### Here is [the link to my final output video on Youtube.](https://youtu.be/BD6qX41Qap0)
 In this final output, I combine the vehicle detection with the lane lines detection finished in Project 4. 
 
-Here's an example result showing the heatmap and bounding boxes overlaid on a frame of video:
+Here's an example result showing the bounding boxes on a frame of video:
 
 ![img](figs/video_image.png)
 
