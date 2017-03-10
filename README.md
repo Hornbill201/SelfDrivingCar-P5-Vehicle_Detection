@@ -52,18 +52,16 @@ I experimented getting the features in different color channels such as RGB , HS
 
 ### 2. Explain how you settled on your final choice of parameters.
 In the final choice of the features, I choose three features.  
-1. HOG Features.  I am using all the 3 channels for extracting the HOG features.
-
-2. Binned Color Features.  `spatial_size = (32, 32)`
-
+1. HOG Features.  I am using all the 3 channels for extracting the HOG features.  
+2. Binned Color Features.  `spatial_size = (32, 32)`  
 3. Color Histogram Features.  `color_space = 'YCrCb'`
 
 The feature extraction function is in the "P5_train_svc.ipynb" code cell 8. 
-
 I tried various combinations of color spaces and parameters before finally settling with following:
-
-`color_space = 'YCrCb'  
-spatial_size = (32, 32)  
+ 
+```
+color_space = 'YCrCb'  
+spatial_size = (32, 32) 
 hist_bins = 32  
 orient = 9  
 pix_per_cell = 8  
@@ -72,34 +70,87 @@ hog_channel = 'ALL'
 spatial_feat = True  
 hist_feat = True  
 hog_feat = True`  
-
-
+```
+For each image, the feature vector has length 8460. 
 
 ### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
+The extracted features where fed to `LinearSVC` model of `sklearn` with default setting of `square-hinged` loss function and `l2` normalization. The trained model had accuracy of `99.1%` on test dataset. 
+
+The trained model along with the parameters used for training were written to a `pickle` file to be further used by vehicle detection pipeline.
+
+The codes can be found at the "P5_train_svc.ipynb".
 
 ## Sliding Window Search
 
 ### 1. Describe how (and identify where in your code) you implemented a sliding window search. How did you decide what scales to search and how much to overlap windows?
 
+The bacis function 'find_cars()' to detect the car can be found in the file  "P5_vehicle_detection.ipynb". It is used to extract features using hog sub-sampling and make predictions. The hog sub-sampling helps to reduce calculation time for finding HOG features and thus provided higher throughput rate.  
+
+In the basic one, 64 was the orginal sampling rate, with 8 cells and 8 pix per cell. The step size is `cells_per_step = 2`, which means instead of overlap, we shift 2 cells each step.
+
+The following figure shows when I set the scale to be `scale = 1.5`, the detection example. 
+
+![img](figs/xxx.png)
+
+Then I used the heat map operation to take care of the multi-detection and reduce the false positive. The example images are shown below, which is basicly good. 
+![img](figs/test1_after_heat.png)
+![img](figs/test1_heat_map.png)
+
+I have tried to directly use the one search scale `scale = 1.5` with heat map with `threshold = 1` to build the pipeline for video. This pipeline can be found in the function `detect_vehicles()`. The output video is basicly good. However, the there are still some false positives shown up and sometimes. And the bounding boxes are not stable and the cars in some frame may not be detected. 
+
+In order to solve these problems, I decideted to use the multiscale search windows. 
+
+Scale 1:
+```
+ystart = 380
+ystop = 480
+scale = 1
+```
+
+Scale 2:
+```
+ystart = 400
+ystop = 600
+scale = 1.5
+```
+
+Scale 3:
+```
+ystart = 500
+ystop = 700
+scale = 2.5
+```
+![img](figs/multi_scale.png)
+
+
+It will be more accurately detect the cars when appling the multiscale search. I also add a pipeline with "smoothing" to average the detection boxes across frames of the video to reduce the false positive and make the output stable. Details are discussed in the next question. 
+
+
 ### 2. Show some examples of test images to demonstrate how your pipeline is working. What did you do to try to minimize false positives and reliably detect cars?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result. Here are some example images:
+Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector. 
+I record the positions of positive detections in each frame of the video. From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions. 
 
-figures
+I also create the second video processing pipeline in the class 
+`class VehicleDetector` which can be found in the file "P5_vehicle_detection.ipynb". 
+The method `VehicleDetector.find_cars_smooth()` is used to detect the car. It is basicly the same as the function `find_cars()` defined before. However, it allows the multi-scale search. More importantly, the search is optimized by processing complete frames only once every 10 frames. The restricted search is performed by appending 50 pixel to the heatmap found in last three frames.
+It really helps a lot to make the detection more robust and stable. 
+
+Here are some example images produced by this new smoothing pipeline. 
+
 
 ## Video Implementation
-### 1. Provide a link to your final video output. Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+### 1. Provide a link to your final video output. 
 
-### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-
-I recorded the positions of positive detections in each frame of the video. From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions. I then used blob detection in Sci-kit Image (Determinant of a Hessian skimage.feature.blob_doh() worked best for me) to identify individual blobs in the heatmap and then determined the extent of each blob using skimage.morphology.watershed(). I then assumed each blob corresponded to a vehicle. I constructed bounding boxes to cover the area of each blob detected.
+### Here is the link to my final output video on Youtube. 
+In this final output, I combine the vehicle detection with the lane lines detection finished in Project 4. 
 
 Here's an example result showing the heatmap and bounding boxes overlaid on a frame of video:
 
-figures
+![img](figs/video_image.png)
 
 ## Discussion
 ### 1. Briefly discuss any problems / issues you faced in your implementation of this project. Where will your pipeline likely fail? What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.
+I found that in some frame of the video, the 
