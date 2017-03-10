@@ -152,6 +152,7 @@ Here are some example images produced by this new smoothing pipeline.
 ### 1. Provide a link to your final video output. 
 
 ### Here is [the link to my final output video on Youtube.](https://youtu.be/IF8L4JLO4fE)
+This video can also be found in this GitHub Repository. 
 In this final output, I combine the vehicle detection with the lane lines detection finished in Project 4. 
 
 Here's an example result showing the bounding boxes on a frame of video:
@@ -161,4 +162,4 @@ Here's an example result showing the bounding boxes on a frame of video:
 ## Discussion
 ### 1. Briefly discuss any problems / issues you faced in your implementation of this project. Where will your pipeline likely fail? What could you do to make it more robust?
 
-I found that in some frame of the video, there will be missed detection. I think I need to enlarge the search area. However, large area will take more time to process the image. The reason that we want to use the multi-scale search is to avoid false positive, because the SVC classifier may make mistakes. I think we may want to use some better classifiers, such as the CNN or SVM with non-linear kernals.  
+I found that in some frame of the video, there will be missed detection. I think I need to enlarge the search area. However, large area will take more time to process the image. The reason that we want to use the multi-scale search is to avoid false positive. Because the linear SVC classifier may not be the best to choose in terms of time and accuracy. I think we may want to use some better classifiers, such as the CNN or SVM with non-linear kernals.  
