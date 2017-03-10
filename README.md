@@ -101,7 +101,7 @@ Then I used the heat map operation to take care of the multi-detection and reduc
 
 I have tried to directly use the one search scale `scale = 1.5` with heat map with `threshold = 1` to build the pipeline for video. This pipeline can be found in the function `detect_vehicles()`. The output video is basicly good. However, the there are still some false positives shown up and sometimes. And the bounding boxes are not stable and the cars in some frame may not be detected. 
 
-In order to solve these problems, I decideted to use the multiscale search windows. 
+In order to solve these problems, I decideted to use the three scales search windows. 
 
 Scale 1:
 ```
@@ -131,11 +131,12 @@ It will be more accurately detect the cars when appling the multiscale search. I
 
 ### 2. Show some examples of test images to demonstrate how your pipeline is working. What did you do to try to minimize false positives and reliably detect cars?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector. 
+Ultimately I searched on three scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector. 
 I record the positions of positive detections in each frame of the video. From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions. 
 
 I also create the second video processing pipeline in the class 
 `class VehicleDetector` which can be found in the file "P5_vehicle_detection.ipynb". 
+
 The method `VehicleDetector.find_cars_smooth()` is used to detect the car. It is basicly the same as the function `find_cars()` defined before. However, it allows the multi-scale search. More importantly, the search is optimized by processing complete frames only once every 10 frames. The restricted search is performed by appending 50 pixel to the heatmap found in last three frames.
 It really helps a lot to make the detection more robust and stable. 
 
